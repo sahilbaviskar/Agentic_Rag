@@ -1,0 +1,12 @@
+streamlit
+groq
+chromadb
+sentence-transformers
+PyPDF2
+markdown
+pyttsx3
+pathlib
+numpy
+pandas
+torch
+transformers
