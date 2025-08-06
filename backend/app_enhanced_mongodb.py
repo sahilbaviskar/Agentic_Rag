@@ -856,6 +856,7 @@ if __name__ == '__main__':
     print("- Optimized MongoDB indexes")
     print("- Groq AI-powered responses")
     print("- Production-ready deployment")
+    print("- Speech-to-Text support via frontend")
     
     # Check services
     print(f"✅ MongoDB: {'Connected' if db else 'Unavailable'}")
@@ -864,4 +865,19 @@ if __name__ == '__main__':
     
     port = int(os.getenv('PORT', 5000))
     debug_mode = os.getenv('FLASK_ENV', 'development') == 'development'
-    app.run(debug=debug_mode, host='0.0.0.0', port=port)
+    
+    # Fix for Windows socket error - use threaded mode and disable reloader in production
+    try:
+        if debug_mode:
+            print("⚠️  Running in debug mode - file changes will trigger restart")
+            print("⚠️  If you encounter socket errors, restart the server manually")
+            app.run(debug=True, host='0.0.0.0', port=port, threaded=True, use_reloader=True)
+        else:
+            print("🚀 Running in production mode")
+            app.run(debug=False, host='0.0.0.0', port=port, threaded=True)
+    except OSError as e:
+        if "10038" in str(e):
+            print("⚠️  Socket error detected. Restarting without reloader...")
+            app.run(debug=False, host='0.0.0.0', port=port, threaded=True, use_reloader=False)
+        else:
+            raise e

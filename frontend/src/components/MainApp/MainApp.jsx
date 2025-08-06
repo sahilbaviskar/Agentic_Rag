@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ragApi } from '../../api/ragApi';
 import './MainApp.css';
 
@@ -10,6 +10,8 @@ const MainApp = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [dbStats, setDbStats] = useState({ total_documents: 0 });
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef(null);
 
   const exampleQueries = [
     "What is covered under my insurance policy?",
@@ -17,6 +19,129 @@ const MainApp = () => {
     "What are the exclusions in my health policy?",
     "How to claim insurance for surgery?"
   ];
+
+  // Text-to-Speech for answers (toggle start/stop)
+  const [speakingIndex, setSpeakingIndex] = useState(null);
+  const speakText = (text, index) => {
+    if ('speechSynthesis' in window) {
+      if (window.speechSynthesis.speaking && speakingIndex === index) {
+        window.speechSynthesis.cancel();
+        setSpeakingIndex(null);
+        return;
+      }
+      window.speechSynthesis.cancel(); // Stop any current speech
+      const utterance = new window.SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.lang = 'en-US';
+      utterance.onend = () => setSpeakingIndex(null);
+      utterance.onerror = () => setSpeakingIndex(null);
+      setSpeakingIndex(index);
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert('Text-to-Speech is not supported in this browser.');
+    }
+  };
+
+  // Enhanced Speech-to-Text for input with better error handling and user feedback
+  const startListening = () => {
+    // Check if browser supports speech recognition
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      setQuery('Speech recognition not supported. Please type your question.');
+      setTimeout(() => setQuery(''), 3000);
+      return;
+    }
+
+    try {
+      // Clean up any existing recognition
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+        recognitionRef.current = null;
+      }
+
+      // Create new recognition instance
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+
+      // Simple, reliable configuration
+      recognition.continuous = false;  // Single phrase
+      recognition.interimResults = false;  // Only final results
+      recognition.lang = 'en-US';
+      recognition.maxAlternatives = 1;
+
+      let hasStarted = false;
+      let finalTranscript = '';
+
+      recognition.onstart = () => {
+        hasStarted = true;
+        setIsListening(true);
+        setQuery('🎤 Listening... Speak now!');
+        console.log('Speech recognition started');
+      };
+
+      recognition.onresult = (event) => {
+        console.log('Speech result received:', event.results);
+        
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const result = event.results[i];
+          if (result.isFinal) {
+            finalTranscript += result[0].transcript;
+          }
+        }
+
+        if (finalTranscript.trim()) {
+          setQuery(finalTranscript.trim());
+          console.log('Final transcript:', finalTranscript);
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+        
+        if (event.error === 'no-speech') {
+          setQuery('No speech heard. Try again.');
+        } else if (event.error === 'not-allowed') {
+          setQuery('Microphone access denied. Please allow microphone access.');
+        } else {
+          setQuery('Speech recognition error. Please try again.');
+        }
+        
+        setTimeout(() => {
+          if (!finalTranscript.trim()) {
+            setQuery('');
+          }
+        }, 2000);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+        console.log('Speech recognition ended');
+        
+        if (!finalTranscript.trim() && hasStarted) {
+          setQuery('No speech detected. Please try again.');
+          setTimeout(() => setQuery(''), 2000);
+        }
+      };
+
+      // Store reference and start
+      recognitionRef.current = recognition;
+      recognition.start();
+
+    } catch (error) {
+      console.error('Failed to start speech recognition:', error);
+      setIsListening(false);
+      setQuery('Failed to start speech recognition. Please try again.');
+      setTimeout(() => setQuery(''), 2000);
+    }
+  };
+
+  const stopListening = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    }
+  };
 
   const handleQuerySubmit = async (queryText) => {
     if (!queryText.trim()) return;
@@ -337,6 +462,31 @@ const MainApp = () => {
                             </div>
                             <div className="message-bubble assistant">
                               <div className="message-content">{chat.response}</div>
+                              <button
+                                className="tts-btn"
+                                title={speakingIndex === index && window.speechSynthesis.speaking ? "Stop speech" : "Listen to answer"}
+                                onClick={() => speakText(chat.response, index)}
+                                style={{
+                                  background: speakingIndex === index && window.speechSynthesis.speaking
+                                    ? 'linear-gradient(90deg, #ff512f 0%, #dd2476 100%)'
+                                    : 'linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)',
+                                  border: 'none',
+                                  borderRadius: '50%',
+                                  width: '36px',
+                                  height: '36px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  margin: '8px 0',
+                                  boxShadow: '0 2px 8px rgba(106,17,203,0.15)',
+                                  cursor: 'pointer',
+                                  transition: 'transform 0.1s',
+                                  color: '#fff',
+                                  fontSize: '20px',
+                                }}
+                              >
+                                <span role="img" aria-label="speaker">🔊</span>
+                              </button>
                               <div className={`source-badge ${chat.isFromDocs ? 'from-docs' : 'from-llm'}`}>
                                 <span className="source-icon">
                                   {chat.isFromDocs ? '📄' : '🧠'}
@@ -385,10 +535,46 @@ const MainApp = () => {
                           type="text"
                           value={query}
                           onChange={(e) => setQuery(e.target.value)}
-                          placeholder="Ask anything about your documents..."
-                          className="query-input"
+                          placeholder={isListening ? "🎤 Listening... Speak now!" : "Ask anything about your documents..."}
+                          className={`query-input ${isListening ? 'listening' : ''}`}
                           disabled={isLoading}
                         />
+                        <button
+                          type="button"
+                          className={`mic-button ${isListening ? 'listening' : ''}`}
+                          onClick={() => {
+                            if (isListening) {
+                              stopListening();
+                            } else {
+                              startListening();
+                            }
+                          }}
+                          style={{
+                            background: isListening
+                              ? 'linear-gradient(90deg, #ff512f 0%, #dd2476 100%)'
+                              : 'linear-gradient(90deg, #11998e 0%, #38ef7d 100%)',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: '36px',
+                            height: '36px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginRight: '8px',
+                            boxShadow: isListening 
+                              ? '0 4px 16px rgba(255,81,47,0.4)' 
+                              : '0 2px 8px rgba(17,153,142,0.15)',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            color: '#fff',
+                            fontSize: '20px',
+                            position: 'relative',
+                          }}
+                          title={isListening ? 'Stop Listening (Click or speak)' : 'Start Voice Input'}
+                        >
+                          <span role="img" aria-label="mic">{isListening ? '🎤' : '🗣️'}</span>
+                          {isListening && <div className="speech-indicator"></div>}
+                        </button>
                         <button 
                           type="submit" 
                           className="send-button"

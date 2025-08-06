@@ -1,7 +1,11 @@
+// Speech-to-Text integration and main app code
+import React, { useState, useRef } from 'react';
+// ...other imports...
+
 // ...existing code...
 
       {/* RAG Interface Section */}
-      <section id="rag-interface" className={`rag-section ${showRAGInterface ? 'active' : ''}`}>
+      <section id="rag-interface" className={`rag-section ${showRAGInterface ? 'active' : ''}`}> 
         <div className="container">
           <div className="rag-header">
             <h2 className="rag-title">🤖 AI Document Assistant</h2>
@@ -207,7 +211,7 @@
                   )}
                 </div>
 
-                {/* Enhanced Query Input */}
+                {/* Enhanced Query Input with Speech-to-Text */}
                 <div className="query-input-section">
                   <form 
                     onSubmit={(e) => {
@@ -226,6 +230,16 @@
                           className="query-input"
                           disabled={isLoading}
                         />
+                        {/* Speech-to-Text Microphone Button */}
+                        <button
+                          type="button"
+                          className={`mic-button${isListening ? ' listening' : ''}`}
+                          onClick={toggleListening}
+                          title="Speak your query"
+                          disabled={isLoading}
+                        >
+                          <span role="img" aria-label="mic">🎤</span>
+                        </button>
                         <button 
                           type="submit" 
                           className="send-button"
@@ -271,6 +285,10 @@
                       </div>
                     </div>
                   </form>
+                  {/* Speech-to-Text Status */}
+                  {isListening && (
+                    <div className="stt-status">Listening... Speak now!</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -278,3 +296,39 @@
         </div>
       </section>
 // ...existing code...
+
+// Speech-to-Text logic (add at the top-level of your component)
+const [isListening, setIsListening] = useState(false);
+const recognitionRef = useRef(null);
+
+const toggleListening = () => {
+  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    alert('Speech recognition is not supported in this browser.');
+    return;
+  }
+  if (isListening) {
+    recognitionRef.current && recognitionRef.current.stop();
+    setIsListening(false);
+  } else {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setQuery(transcript);
+      setIsListening(false);
+    };
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      setIsListening(false);
+    };
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsListening(true);
+  }
+};
