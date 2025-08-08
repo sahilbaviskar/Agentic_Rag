@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import './Header.css';
 
-const Header = () => {
+const Header = ({ showUserInfo = true }) => {
   const { user, logout } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -17,52 +17,53 @@ const Header = () => {
         <div className="header-left">
           <h1 className="app-title">
             <i className="fas fa-brain"></i>
-            Agentic RAG
+            Health & Insurance RAG
           </h1>
-          <span className="app-subtitle">Intelligent Document Assistant</span>
+          <span className="app-subtitle">Intelligent Healthcare Assistant</span>
         </div>
         
-        <div className="header-right">
-          <div className="user-menu">
-            <button 
-              className="user-button"
-              onClick={() => setShowDropdown(!showDropdown)}
-            >
-              <div className="user-avatar">
-                <i className="fas fa-user"></i>
-              </div>
-              <div className="user-info">
-                <span className="user-name">{user?.name}</span>
-                <span className="user-email">{user?.email}</span>
-              </div>
-              <i className={`fas fa-chevron-down dropdown-icon ${showDropdown ? 'open' : ''}`}></i>
-            </button>
-            
-            {showDropdown && (
-              <div className="user-dropdown">
-                <div className="dropdown-header">
-                  <div className="user-avatar-large">
-                    <i className="fas fa-user"></i>
-                  </div>
-                  <div>
-                    <div className="dropdown-name">{user?.name}</div>
-                    <div className="dropdown-email">{user?.email}</div>
-                  </div>
+        {showUserInfo && user && (
+          <div className="header-right">
+            <div className="user-menu">
+              <button 
+                className="user-button"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                <div className="user-avatar">
+                  <i className="fas fa-user"></i>
                 </div>
-                
-                <div className="dropdown-divider"></div>
-                
-                <button className="dropdown-item" onClick={handleLogout}>
-                  <i className="fas fa-sign-out-alt"></i>
-                  Sign Out
-                </button>
-              </div>
-            )}
+                <div className="user-info">
+                  <span className="user-name">{user?.name}</span>
+                  <span className="user-email">{user?.email}</span>
+                </div>
+                <i className={`fas fa-chevron-down dropdown-icon ${showDropdown ? 'open' : ''}`}></i>
+              </button>
+              
+              {showDropdown && (
+                <div className="user-dropdown">
+                  <div className="dropdown-header">
+                    <div className="user-avatar-large">
+                      <i className="fas fa-user"></i>
+                    </div>
+                    <div>
+                      <div className="dropdown-name">{user?.name}</div>
+                      <div className="dropdown-email">{user?.email}</div>
+                    </div>
+                  </div>
+                  
+                  <div className="dropdown-divider"></div>
+                  
+                  <button className="dropdown-item" onClick={handleLogout}>
+                    <i className="fas fa-sign-out-alt"></i>
+                    Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       
-      {/* Overlay to close dropdown when clicking outside */}
       {showDropdown && (
         <div 
           className="dropdown-overlay" 

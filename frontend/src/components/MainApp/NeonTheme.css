@@ -1,0 +1,600 @@
+/* Health & Insurance Policy RAG Companion Platform - Medical Professional Theme */
+
+/* Navigation Bar Theme */
+.medical-main-app .navbar,
+.medical-main-app .header {
+  background: linear-gradient(135deg, #2C5282 0%, #319795 100%);
+  border-bottom: 1px solid rgba(44, 82, 130, 0.2);
+  box-shadow: 0 2px 8px rgba(44, 82, 130, 0.15);
+}
+
+.medical-main-app .navbar-brand,
+.medical-main-app .nav-link,
+.medical-main-app .header-title {
+  color: #ffffff !important;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  font-weight: 600;
+}
+
+.medical-main-app .nav-link:hover {
+  color: #22d3ee !important;
+  transition: color 0.3s ease;
+}
+
+.medical-main-app .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.medical-main-app .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Base Medical Theme with Professional Gradient Background */
+.medical-main-app {
+  background: 
+    linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%),
+    radial-gradient(ellipse at top right, #e0f2fe 0%, transparent 50%);
+  color: #2C5282;
+  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Subtle Professional Background Effects */
+.medical-main-app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(34, 197, 94, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: subtleGlow 6s ease-in-out infinite alternate;
+}
+
+@keyframes subtleGlow {
+  0% { opacity: 0.6; }
+  100% { opacity: 0.8; }
+}
+
+/* Hero Section */
+.medical-hero-section {
+  padding: 80px 0 60px 0;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #2C5282 0%, #1e40af 30%, #319795 70%, #22d3ee 100%);
+  box-shadow: 0 4px 20px rgba(44, 82, 130, 0.25);
+}
+
+.medical-hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Main Title */
+.medical-title {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  /* Removed animation for static title */
+}
+
+.medical-gradient-text {
+  background: linear-gradient(90deg, #22d3ee, #319795, #3b82f6, #2C5282);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Removed animation to stop flashing */
+}
+
+/* Subtitle */
+.medical-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 50px;
+  line-height: 1.6;
+  font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.medical-highlight {
+  color: #22d3ee;
+  font-weight: 600;
+}
+
+/* Feature Cards Container */
+.medical-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+  padding: 0 20px;
+}
+
+/* Individual Feature Cards */
+.medical-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(44, 82, 130, 0.15);
+  box-shadow:
+    0 8px 32px rgba(44, 82, 130, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 35px 30px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.medical-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2C5282, #319795, #22d3ee);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.medical-card:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 20px 40px rgba(44, 82, 130, 0.15),
+    0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.medical-card:hover::before {
+  opacity: 1;
+}
+
+/* Card Content */
+.medical-card-icon {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  display: block;
+  color: #319795;
+}
+
+.medical-card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2C5282;
+  margin-bottom: 15px;
+  line-height: 1.3;
+}
+
+.medical-card-desc {
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.medical-card-action {
+  color: #319795;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.medical-card-action:hover {
+  color: #2C5282;
+  transform: translateX(5px);
+}
+
+/* Caring Gradient Glow Effect for Cards */
+.medical-gradient-glow {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(15px);
+  z-index: 0;
+  animation: gentleFloat 8s ease-in-out infinite;
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translate(0, 0); opacity: 0.6; }
+  33% { transform: translate(5px, -5px); opacity: 0.8; }
+  66% { transform: translate(-5px, 5px); opacity: 0.7; }
+}
+
+/* RAG Section */
+.medical-rag-section {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%);
+  border-radius: 25px 25px 0 0;
+  border: 1px solid rgba(44, 82, 130, 0.1);
+  box-shadow: 
+    0 -10px 40px rgba(44, 82, 130, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  padding: 40px 0;
+  margin-top: 60px;
+}
+
+.medical-rag-title {
+  font-size: 2.2rem;
+  color: #2C5282;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Enhanced existing elements for medical theme */
+.medical-main-app .sidebar {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(44, 82, 130, 0.15);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(44, 82, 130, 0.1);
+}
+
+.medical-main-app .status-card,
+.medical-main-app .upload-card,
+.medical-main-app .settings-card,
+.medical-main-app .actions-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(44, 82, 130, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(44, 82, 130, 0.08);
+}
+
+.medical-main-app .card-title {
+  color: #2C5282;
+  font-weight: 600;
+}
+
+.medical-main-app .query-input {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 2px solid rgba(44, 82, 130, 0.2);
+  border-radius: 25px;
+  color: #2C5282;
+  box-shadow: 
+    0 4px 16px rgba(44, 82, 130, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  font-weight: 500;
+}
+
+.medical-main-app .query-input:focus {
+  border-color: #319795;
+  box-shadow: 
+    0 0 20px rgba(49, 151, 149, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  outline: none;
+}
+
+.medical-main-app .query-input::placeholder {
+  color: #94a3b8;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+}
+
+.medical-main-app .send-button {
+  background: linear-gradient(135deg, #2C5282 0%, #319795 100%);
+  border: none;
+  border-radius: 20px;
+  color: #ffffff;
+  font-weight: 600;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  box-shadow: 0 4px 16px rgba(44, 82, 130, 0.25);
+  transition: all 0.3s ease;
+}
+
+.medical-main-app .send-button:hover {
+  background: linear-gradient(135deg, #1e40af 0%, #22d3ee 100%);
+  box-shadow: 0 6px 20px rgba(44, 82, 130, 0.3);
+  transform: translateY(-2px);
+}
+
+.medical-main-app .message-bubble.assistant {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border: 1px solid rgba(44, 82, 130, 0.1);
+  box-shadow: 0 4px 16px rgba(44, 82, 130, 0.08);
+  color: #2C5282;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.medical-main-app .message-bubble.user {
+  background: linear-gradient(135deg, #2C5282 0%, #319795 100%);
+  box-shadow: 0 4px 16px rgba(44, 82, 130, 0.2);
+  color: #ffffff;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Professional buttons */
+.medical-main-app .action-btn.primary {
+  background: linear-gradient(135deg, #319795 0%, #22d3ee 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.medical-main-app .action-btn.primary:hover {
+  background: linear-gradient(135deg, #2C5282 0%, #319795 100%);
+  transform: translateY(-1px);
+}
+
+.medical-main-app .action-btn.secondary {
+  background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.medical-main-app .action-btn.danger {
+  background: linear-gradient(135deg, #f56565 0%, #fc8181 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .medical-title {
+    font-size: 2rem;
+  }
+  
+  .medical-cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .medical-card {
+    padding: 25px 20px;
+  }
+  
+  .medical-hero-section {
+    padding: 60px 0 40px 0;
+  }
+}
+
+/* Professional Loading and Animation Effects */
+.medical-pulse {
+  animation: medicalPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes medicalPulse {
+  0% { 
+    box-shadow: 0 0 20px rgba(44, 82, 130, 0.15);
+  }
+  100% { 
+    box-shadow: 0 0 30px rgba(49, 151, 149, 0.25);
+  }
+}
+
+/* Trust indicators */
+.medical-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  color: #15803d;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+/* Custom Professional Scrollbar */
+.medical-main-app ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.medical-main-app ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.medical-main-app ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2C5282 0%, #319795 100%);
+  border-radius: 4px;
+}
+
+.medical-main-app ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #1e40af 0%, #22d3ee 100%);
+}
+
+/* Status indicators */
+.medical-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Professional form elements */
+.medical-main-app .file-input {
+  background: #ffffff;
+  border: 2px dashed rgba(44, 82, 130, 0.3);
+  border-radius: 12px;
+  color: #2C5282;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.medical-main-app .file-input:hover {
+  border-color: #319795;
+  background: #f8fafc;
+}
+
+/* Success and error states */
+.medical-success {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  color: #15803d;
+}
+
+.medical-error {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border: 1px solid rgba(245, 101, 101, 0.3);
+  color: #b91c1c;
+}
+
+/* Accessibility improvements */
+.medical-main-app button:focus,
+.medical-main-app input:focus {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+}
+
+/* Professional typography */
+.medical-heading {
+  color: #2C5282;
+  font-weight: 700;
+  line-height: 1.2;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+}
+
+.medical-subheading {
+  color: #475569;
+  font-weight: 600;
+  line-height: 1.4;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+}
+
+.medical-body-text {
+  color: #64748b;
+  line-height: 1.6;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+}
+
+/* Professional card variations */
+.medical-info-card {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid rgba(44, 82, 130, 0.2);
+  color: #2C5282;
+}
+
+.medical-warning-card {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: #d97706;
+}
+
+/* Additional RAG Interface Styling */
+.medical-main-app .welcome-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid rgba(44, 82, 130, 0.1);
+  border-radius: 16px;
+  color: #2C5282;
+}
+
+.medical-main-app .welcome-title {
+  color: #2C5282;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  font-weight: 700;
+}
+
+.medical-main-app .welcome-text {
+  color: #64748b;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+}
+
+.medical-main-app .example-query-btn {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 2px solid rgba(44, 82, 130, 0.15);
+  color: #2C5282;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.medical-main-app .example-query-btn:hover {
+  background: linear-gradient(135deg, #2C5282 0%, #319795 100%);
+  color: #ffffff;
+  border-color: #319795;
+  transform: translateY(-2px);
+}
+
+.medical-main-app .source-badge.from-docs {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  color: #15803d;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.medical-main-app .source-badge.from-llm {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #2C5282;
+  border: 1px solid rgba(44, 82, 130, 0.2);
+}
+
+.medical-main-app .tts-btn {
+  background: linear-gradient(135deg, #319795 0%, #22d3ee 100%) !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(49, 151, 149, 0.2) !important;
+}
+
+.medical-main-app .tts-btn:hover {
+  background: linear-gradient(135deg, #2C5282 0%, #319795 100%) !important;
+  box-shadow: 0 4px 12px rgba(44, 82, 130, 0.25) !important;
+}
+
+.medical-main-app .mic-button {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2) !important;
+}
+
+.medical-main-app .mic-button.listening {
+  background: linear-gradient(135deg, #f56565 0%, #fc8181 100%) !important;
+  box-shadow: 0 4px 16px rgba(245, 101, 101, 0.3) !important;
+}
+
+.medical-main-app .loading-spinner {
+  border-color: #319795 transparent #2C5282 transparent;
+}
+
+.medical-main-app .suggestion-chip {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid rgba(44, 82, 130, 0.15);
+  color: #2C5282;
+  font-family: 'Inter', 'Segoe UI', 'Segoe UI Symbol', Arial, sans-serif;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.medical-main-app .suggestion-chip:hover {
+  background: linear-gradient(135deg, #319795 0%, #22d3ee 100%);
+  color: #ffffff;
+  border-color: #319795;
+}

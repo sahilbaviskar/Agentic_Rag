@@ -1,0 +1,79 @@
+/* Import the main medical theme styles */
+@import '../MainApp/MedicalTheme.css';
+
+/* Additional styles specific to HomePage */
+.medical-main-app {
+  min-height: 100vh;
+}
+
+/* Get Started CTA Section */
+.medical-cta-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #1e40af 0%, #0f766e 100%);
+  color: white;
+  text-align: center;
+}
+
+.medical-cta-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.medical-cta-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.medical-cta-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.medical-get-started-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 36px;
+  background: white;
+  color: #1e40af;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
+  font-family: 'Inter', sans-serif;
+}
+
+.medical-get-started-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(255, 255, 255, 0.3);
+  background: #f8fafc;
+}
+
+.medical-get-started-icon {
+  font-size: 1.3rem;
+}
+
+/* Responsive design for CTA section */
+@media (max-width: 768px) {
+  .medical-cta-title {
+    font-size: 2rem;
+  }
+  
+  .medical-cta-subtitle {
+    font-size: 1rem;
+  }
+  
+  .medical-get-started-btn {
+    padding: 16px 28px;
+    font-size: 1.1rem;
+  }
+}

@@ -6,6 +6,7 @@ import tempfile
 import PyPDF2
 import io
 import time
+import ssl
 from functools import wraps
 import json
 import re
@@ -34,7 +35,9 @@ CORS(app)
 # Configuration - Use environment variables for production
 GROQ_API_KEY = os.getenv('GROQ_API_KEY', "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")
 JWT_SECRET = os.getenv('JWT_SECRET', "your-production-secret-key-change-this")
-MONGODB_CONNECTION = os.getenv('MONGODB_CONNECTION', "mongodb+srv://lokeshdeshmukh34:WB92y35PCAkCDZeB@cluster0.wqwbsbp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+#MONGODB_CONNECTION = os.getenv('MONGODB_CONNECTION', "mongodb+srv://lokeshdeshmukh34:WB92y35PCAkCDZeB@cluster0.wqwbsbp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+#mongodb+srv://baviskarsahil2005:OHSyigOLMu0OjtNK@cluster0.u2ckqrs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+MONGODB_CONNECTION = os.getenv('MONGODB_CONNECTION', "mongodb+srv://baviskarsahil2005:OHSyigOLMu0OjtNK@cluster0.u2ckqrs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
 # Initialize global components
 groq_client = None

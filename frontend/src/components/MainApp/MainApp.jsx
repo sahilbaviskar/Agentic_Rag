@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ragApi } from '../../api/ragApi';
 import './MainApp.css';
+import './MedicalTheme.css'; 
 
 const MainApp = () => {
   const [chatHistory, setChatHistory] = useState([]);
@@ -14,10 +15,12 @@ const MainApp = () => {
   const recognitionRef = useRef(null);
 
   const exampleQueries = [
-    "What is covered under my insurance policy?",
-    "46-year-old male, knee surgery in Pune",
-    "What are the exclusions in my health policy?",
-    "How to claim insurance for surgery?"
+    "What is covered under my health insurance policy?",
+    "How do I file a claim for medical expenses?",
+    "What are the exclusions in my insurance policy?",
+    "What is the process for pre-authorization of surgery?",
+    "How much is my co-payment for specialist visits?",
+    "What documents are needed for claim processing?"
   ];
 
   // Text-to-Speech for answers (toggle start/stop)
@@ -250,97 +253,72 @@ const MainApp = () => {
   }, []);
 
   return (
-    <div className="main-app">
-      {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-content">
-          <div className="hero-text">
-            <h1 className="hero-title">
-              <span className="gradient-text">Your Personal</span>
-              <br />
-              AI Document Assistant
-            </h1>
-            <p className="hero-subtitle">
-              Upload your documents and get intelligent answers powered by AI. 
-              Your personal knowledge base with advanced text-to-speech capabilities.
-            </p>
-            <div className="hero-stats">
-              <div className="stat-item">
-                <span className="stat-number">{dbStats.total_documents || 0}</span>
-                <span className="stat-label">Your Documents</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">{dbStats.tts_available ? 'ON' : 'OFF'}</span>
-                <span className="stat-label">Text-to-Speech</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">24/7</span>
-                <span className="stat-label">AI Support</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* RAG Interface Section */}
-      <section className="rag-section">
+    <div className="medical-main-app">
+      {/* Enhanced RAG Section - Only this section now */}
+      <section className="medical-rag-section">
         <div className="container">
-          <div className="rag-container">
+          <div className="medical-rag-header">
+            <h2 className="medical-rag-title">🏥 Healthcare AI Assistant</h2>
+            <p className="medical-rag-subtitle">
+              Upload your medical documents and get instant AI-powered insights and guidance
+            </p>
+          </div>
+
+          <div className="medical-rag-container">
             {/* Enhanced Sidebar */}
-            <div className="sidebar">
+            <div className="medical-sidebar">
               {/* System Status Card */}
-              <div className="status-card">
-                <div className="status-header">
-                  <div className="status-indicator">
-                    <span className="status-dot"></span>
-                    <span className="status-text">System Ready</span>
+              <div className="medical-status-card">
+                <div className="medical-card-header">
+                  <div className="medical-status-indicator">
+                    <span className="medical-status-dot"></span>
+                    <span className="medical-status-text">System Ready</span>
                   </div>
-                  <div className="db-stats-badge">
-                    <span className="stats-number">{dbStats.total_documents || 0}</span>
-                    <span className="stats-label">Documents</span>
+                  <div className="medical-stats-badge">
+                    <span className="medical-stats-number">{dbStats.total_documents}</span>
+                    <span className="medical-stats-label">Documents</span>
                   </div>
                 </div>
               </div>
 
               {/* Upload Card */}
-              <div className="upload-card">
-                <div className="card-header">
-                  <h3 className="card-title">
-                    <span className="card-icon">📄</span>
-                    Upload Documents
+              <div className="medical-upload-card">
+                <div className="medical-card-header">
+                  <h3 className="medical-card-title">
+                    <span className="medical-card-icon">📄</span>
+                    Upload Medical Documents
                   </h3>
                 </div>
-                <div className="card-content">
-                  <div className="upload-info">
+                <div className="medical-card-content">
+                  <div className="medical-upload-info">
                     <p><strong>Supported formats:</strong></p>
-                    <div className="format-tags">
-                      <span className="format-tag">PDF</span>
-                      <span className="format-tag">TXT</span>
-                      <span className="format-tag">MD</span>
+                    <div className="medical-format-tags">
+                      <span className="medical-format-tag">PDF</span>
+                      <span className="medical-format-tag">TXT</span>
+                      <span className="medical-format-tag">MD</span>
                     </div>
                   </div>
                   
-                  <div className="upload-area">
+                  <div className="medical-upload-area">
                     <input
                       type="file"
                       multiple
                       accept=".pdf,.md,.txt,.markdown"
                       onChange={(e) => handleFileUpload(Array.from(e.target.files))}
-                      className="file-input"
-                      id="file-upload"
-                      disabled={isProcessing}
+                      className="medical-file-input"
+                      id="medical-file-upload"
                     />
-                    <label htmlFor="file-upload" className="upload-label">
-                      <div className="upload-icon">📁</div>
-                      <div className="upload-text">
-                        <span>{isProcessing ? 'Processing...' : 'Drop files here or'}</span>
-                        <span className="upload-link">browse</span>
+                    <label htmlFor="medical-file-upload" className="medical-upload-label">
+                      <div className="medical-upload-icon">🏥</div>
+                      <div className="medical-upload-text">
+                        <span>Drop medical files here or</span>
+                        <span className="medical-upload-link">browse</span>
                       </div>
                     </label>
                   </div>
 
                   {uploadedFiles.length > 0 && (
-                    <div className="uploaded-files">
+                    <div className="medical-uploaded-files">
                       <h4>Recent uploads:</h4>
                       <ul>
                         {uploadedFiles.slice(-3).map((file, index) => (
@@ -352,62 +330,36 @@ const MainApp = () => {
                 </div>
               </div>
 
-              {/* Settings Card */}
-              <div className="settings-card">
-                <div className="card-header">
-                  <h3 className="card-title">
-                    <span className="card-icon">⚙️</span>
-                    Settings
-                  </h3>
-                </div>
-                <div className="card-content">
-                  <div className="setting-item">
-                    <label className="toggle-switch">
-                      <input
-                        type="checkbox"
-                        checked={ttsEnabled}
-                        onChange={(e) => setTtsEnabled(e.target.checked)}
-                      />
-                      <span className="toggle-slider"></span>
-                    </label>
-                    <div className="setting-info">
-                      <span className="setting-label">Text-to-Speech</span>
-                      <span className="setting-desc">Enable voice responses</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
 
               {/* Actions Card */}
-              <div className="actions-card">
-                <div className="card-header">
-                  <h3 className="card-title">
-                    <span className="card-icon">🔧</span>
+              <div className="medical-actions-card">
+                <div className="medical-card-header">
+                  <h3 className="medical-card-title">
+                    <span className="medical-card-icon">🔧</span>
                     Quick Actions
                   </h3>
                 </div>
-                <div className="card-content">
-                  <div className="action-buttons">
-                    <button 
-                      onClick={fetchDbStats} 
-                      className="action-btn primary"
-                      disabled={isProcessing}
-                    >
-                      <span className="btn-icon">🔄</span>
+                <div className="medical-card-content">
+                  <div className="medical-action-buttons">
+                    <button onClick={fetchDbStats} className="medical-action-btn primary">
+                      <span className="medical-btn-icon">🔄</span>
                       Refresh Stats
                     </button>
                     <button 
                       onClick={() => setChatHistory([])}
-                      className="action-btn secondary"
+                      className="medical-action-btn secondary"
                     >
-                      <span className="btn-icon">🗑️</span>
+                      <span className="medical-btn-icon">🗑️</span>
                       Clear Chat
                     </button>
                     <button 
                       onClick={handleClearDatabase}
-                      className="action-btn danger"
+                      className="medical-action-btn danger"
+                      disabled={isProcessing || dbStats.total_documents === 0}
+                      title="Clear all your uploaded documents from the database"
                     >
-                      <span className="btn-icon">💾</span>
+                      <span className="medical-btn-icon">🗂️</span>
                       Clear My Documents
                     </button>
                   </div>
@@ -416,211 +368,204 @@ const MainApp = () => {
             </div>
 
             {/* Enhanced Main Content */}
-            <div className="main-content">
-              <div className="chat-container">
-                <div className="chat-messages">
-                  {chatHistory.length === 0 ? (
-                    <div className="welcome-section">
-                      <div className="welcome-content">
-                        <div className="welcome-icon">💡</div>
-                        <h3 className="welcome-title">Get Started with AI Assistant</h3>
-                        <p className="welcome-text">
-                          Try these example queries or upload documents to begin exploring
-                        </p>
+            <div className="medical-main-content">
+              {chatHistory.length === 0 ? (
+                <>
+                  {/* Compact Welcome Section */}
+                  <div className="medical-chat-messages">
+                    <div className="medical-welcome-section">
+                      <div className="medical-welcome-content">
+                        <div className="medical-welcome-header">
+                          <div className="medical-welcome-icon">🏥</div>
+                          <h3 className="medical-welcome-title">Welcome to Your Healthcare AI Assistant</h3>
+                          <p className="medical-welcome-text">
+                            Get started by asking questions about your health insurance, policies, or upload medical documents for instant AI-powered insights.
+                          </p>
+                        </div>
                         
-                        <div className="example-queries">
-                          {exampleQueries.map((example, index) => (
-                            <button
-                              key={index}
-                              onClick={() => handleQuerySubmit(example)}
-                              className="example-query-btn"
-                              disabled={isLoading}
+                        {/* Compact CTA Section */}
+                        <div className="medical-welcome-cta">
+                          <p className="medical-welcome-cta-text">Ready to get started?</p>
+                          <div className="medical-welcome-cta-buttons">
+                            <button 
+                              onClick={() => document.getElementById('medical-file-upload').click()}
+                              className="medical-welcome-cta-btn primary"
                             >
-                              <span className="query-icon">💬</span>
-                              <span className="query-text">{example}</span>
+                              <span className="medical-welcome-cta-icon">📄</span>
+                              Upload Documents
                             </button>
-                          ))}
+                            <button 
+                              onClick={() => document.querySelector('.medical-query-input').focus()}
+                              className="medical-welcome-cta-btn secondary"
+                            >
+                              <span className="medical-welcome-cta-icon">💬</span>
+                              Ask a Question
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  ) : (
-                    <div className="chat-history">
+                  </div>
+
+                  {/* Main Content Sections - Examples and Tips */}
+                  <div className="medical-main-content-sections">
+                    {/* Example Queries Section */}
+                    <div className="medical-content-section">
+                      <h4 className="medical-content-section-title">
+                        <span className="medical-content-section-icon">💬</span>
+                        Try these example questions:
+                      </h4>
+                      <div className="medical-main-example-queries">
+                        {exampleQueries.map((example, index) => (
+                          <button
+                            key={index}
+                            onClick={() => handleQuerySubmit(example)}
+                            className="medical-main-example-query-btn"
+                            disabled={isLoading}
+                          >
+                            <span className="medical-main-query-icon">❓</span>
+                            <span className="medical-main-query-text">{example}</span>
+                            <span className="medical-main-query-arrow">→</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="medical-chat-container">
+                  <div className="medical-chat-messages">
+                    <div className="medical-chat-history">
                       {chatHistory.map((chat, index) => (
-                        <div key={index} className="chat-exchange">
-                          <div className="user-message">
-                            <div className="message-avatar">
+                        <div key={index} className="medical-chat-exchange">
+                          <div className="medical-user-message">
+                            <div className="medical-message-avatar">
                               <span>👤</span>
                             </div>
-                            <div className="message-bubble user">
-                              <div className="message-content">{chat.query}</div>
+                            <div className="medical-message-bubble user">
+                              <div className="medical-message-content">{chat.query}</div>
                             </div>
                           </div>
                           
-                          <div className="assistant-message">
-                            <div className="message-avatar">
-                              <span>🤖</span>
+                          <div className="medical-assistant-message">
+                            <div className="medical-message-avatar">
+                              <span>🏥</span>
                             </div>
-                            <div className="message-bubble assistant">
-                              <div className="message-content">{chat.response}</div>
-                              <button
-                                className="tts-btn"
-                                title={speakingIndex === index && window.speechSynthesis.speaking ? "Stop speech" : "Listen to answer"}
-                                onClick={() => speakText(chat.response, index)}
-                                style={{
-                                  background: speakingIndex === index && window.speechSynthesis.speaking
-                                    ? 'linear-gradient(90deg, #ff512f 0%, #dd2476 100%)'
-                                    : 'linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)',
-                                  border: 'none',
-                                  borderRadius: '50%',
-                                  width: '36px',
-                                  height: '36px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  margin: '8px 0',
-                                  boxShadow: '0 2px 8px rgba(106,17,203,0.15)',
-                                  cursor: 'pointer',
-                                  transition: 'transform 0.1s',
-                                  color: '#fff',
-                                  fontSize: '20px',
-                                }}
-                              >
-                                <span role="img" aria-label="speaker">🔊</span>
-                              </button>
-                              <div className={`source-badge ${chat.isFromDocs ? 'from-docs' : 'from-llm'}`}>
-                                <span className="source-icon">
+                            <div className="medical-message-bubble assistant">
+                              <div className="medical-message-content">{chat.response}</div>
+                              <div className={`medical-source-badge ${chat.isFromDocs ? 'from-docs' : 'from-llm'}`}>
+                                <span className="medical-source-icon">
                                   {chat.isFromDocs ? '📄' : '🧠'}
                                 </span>
-                                <span className="source-text">{chat.sourceInfo}</span>
+                                <span className="medical-source-text">{chat.sourceInfo}</span>
                               </div>
-                              {chat.retrievedDocs && chat.retrievedDocs.length > 0 && (
-                                <div className="retrieved-docs-info">
-                                  <small>Retrieved from {chat.retrievedDocs.length} document(s)</small>
-                                </div>
-                              )}
+                              <button
+                                onClick={() => speakText(chat.response, index)}
+                                className={`medical-tts-btn ${speakingIndex === index ? 'speaking' : ''}`}
+                                title="Listen to response"
+                              >
+                                <span>{speakingIndex === index ? '🔇' : '🔊'}</span>
+                              </button>
                             </div>
                           </div>
                         </div>
                       ))}
                     </div>
-                  )}
-                  
-                  {isLoading && (
-                    <div className="loading-section">
-                      <div className="loading-animation">
-                        <div className="loading-spinner"></div>
-                        <div className="loading-dots">
-                          <span></span>
-                          <span></span>
-                          <span></span>
+                    
+                    {isLoading && (
+                      <div className="medical-loading-section">
+                        <div className="medical-loading-animation">
+                          <div className="medical-loading-spinner"></div>
+                          <div className="medical-loading-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
                         </div>
+                        <p className="medical-loading-text">Analyzing your healthcare query...</p>
                       </div>
-                      <p className="loading-text">AI is processing your query...</p>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
+              )}
 
-                {/* Enhanced Query Input */}
-                <div className="query-input-section">
-                  <form 
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      handleQuerySubmit(query);
-                    }}
-                    className="query-form"
-                  >
-                    <div className="input-wrapper">
-                      <div className="input-container">
-                        <input
-                          type="text"
-                          value={query}
-                          onChange={(e) => setQuery(e.target.value)}
-                          placeholder={isListening ? "🎤 Listening... Speak now!" : "Ask anything about your documents..."}
-                          className={`query-input ${isListening ? 'listening' : ''}`}
-                          disabled={isLoading}
-                        />
-                        <button
+              {/* Query Input Section - Always visible */}
+              <div className="medical-query-input-section">
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleQuerySubmit(query);
+                  }}
+                  className="medical-query-form"
+                >
+                  <div className="medical-input-wrapper">
+                    <div className="medical-input-container">
+                      <input
+                        type="text"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="Ask about your health insurance, medical procedures, or policies..."
+                        className={`medical-query-input ${isListening ? 'listening' : ''}`}
+                        disabled={isLoading}
+                      />
+                      <button
+                        type="button"
+                        className={`medical-mic-button ${isListening ? 'listening' : ''}`}
+                        onClick={startListening}
+                        title="Speak your question"
+                        disabled={isLoading}
+                      >
+                        <span role="img" aria-label="mic">🎤</span>
+                        {isListening && <div className="medical-speech-indicator"></div>}
+                      </button>
+                      <button 
+                        type="submit" 
+                        className="medical-send-button"
+                        disabled={isLoading || !query.trim()}
+                      >
+                        {isLoading ? (
+                          <div className="medical-btn-loading">
+                            <div className="medical-btn-spinner"></div>
+                          </div>
+                        ) : (
+                          <>
+                            <span>Send</span>
+                            <span className="medical-send-icon">🚀</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <div className="medical-input-suggestions">
+                      <span className="medical-suggestion-label">Suggestions:</span>
+                      <div className="medical-suggestion-chips">
+                        <button 
                           type="button"
-                          className={`mic-button ${isListening ? 'listening' : ''}`}
-                          onClick={() => {
-                            if (isListening) {
-                              stopListening();
-                            } else {
-                              startListening();
-                            }
-                          }}
-                          style={{
-                            background: isListening
-                              ? 'linear-gradient(90deg, #ff512f 0%, #dd2476 100%)'
-                              : 'linear-gradient(90deg, #11998e 0%, #38ef7d 100%)',
-                            border: 'none',
-                            borderRadius: '50%',
-                            width: '36px',
-                            height: '36px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginRight: '8px',
-                            boxShadow: isListening 
-                              ? '0 4px 16px rgba(255,81,47,0.4)' 
-                              : '0 2px 8px rgba(17,153,142,0.15)',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease',
-                            color: '#fff',
-                            fontSize: '20px',
-                            position: 'relative',
-                          }}
-                          title={isListening ? 'Stop Listening (Click or speak)' : 'Start Voice Input'}
+                          onClick={() => setQuery("What is covered under my policy?")}
+                          className="medical-suggestion-chip"
                         >
-                          <span role="img" aria-label="mic">{isListening ? '🎤' : '🗣️'}</span>
-                          {isListening && <div className="speech-indicator"></div>}
+                          Coverage details
                         </button>
                         <button 
-                          type="submit" 
-                          className="send-button"
-                          disabled={isLoading || !query.trim()}
+                          type="button"
+                          onClick={() => setQuery("How to file a claim?")}
+                          className="medical-suggestion-chip"
                         >
-                          {isLoading ? (
-                            <div className="btn-loading">
-                              <div className="btn-spinner"></div>
-                            </div>
-                          ) : (
-                            <>
-                              <span>Send</span>
-                              <span className="send-icon">🚀</span>
-                            </>
-                          )}
+                          Filing claims
+                        </button>
+                        <button 
+                          type="button"
+                          onClick={() => setQuery("What are the exclusions?")}
+                          className="medical-suggestion-chip"
+                        >
+                          Policy exclusions
                         </button>
                       </div>
-                      <div className="input-suggestions">
-                        <span className="suggestion-label">Suggestions:</span>
-                        <div className="suggestion-chips">
-                          <button 
-                            type="button"
-                            onClick={() => setQuery("What is covered under my policy?")}
-                            className="suggestion-chip"
-                          >
-                            Coverage details
-                          </button>
-                          <button 
-                            type="button"
-                            onClick={() => setQuery("How to file a claim?")}
-                            className="suggestion-chip"
-                          >
-                            Filing claims
-                          </button>
-                          <button 
-                            type="button"
-                            onClick={() => setQuery("What are the exclusions?")}
-                            className="suggestion-chip"
-                          >
-                            Policy exclusions
-                          </button>
-                        </div>
-                      </div>
                     </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
+                {isListening && (
+                  <div className="medical-stt-status">🎤 Listening... Speak now!</div>
+                )}
               </div>
             </div>
           </div>
