@@ -19,9 +19,14 @@ from groq import Groq
 app = Flask(__name__)
 CORS(app)
 
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
 # Configuration
-GROQ_API_KEY = "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"
-JWT_SECRET = "your-secret-key-change-in-production"
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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")
+JWT_SECRET = os.getenv("JWT_SECRET", "your-secret-key-change-in-production")
 
 # Initialize Groq client
 groq_client = Groq(api_key=GROQ_API_KEY)
@@ -424,10 +429,12 @@ def process_query():
 def upload_file():
     try:
         if 'file' not in request.files:
+            print("Upload Error: No file provided in request.files")
             return jsonify({'error': 'No file provided'}), 400
         
         file = request.files['file']
         if file.filename == '':
+            print("Upload Error: No file selected")
             return jsonify({'error': 'No file selected'}), 400
         
         print(f"Received file upload from user {request.user_id}: {file.filename}")
@@ -440,6 +447,7 @@ def upload_file():
         text_content = extract_text_from_file(file_content, filename)
         
         if not text_content or len(text_content.strip()) < 10:
+            print(f"Upload Error: Could not extract meaningful text from file {filename}. Text length: {len(text_content) if text_content else 0}")
             return jsonify({'error': 'Could not extract meaningful text from file'}), 400
         
         # Create metadata
@@ -461,6 +469,7 @@ def upload_file():
         cursor.execute('SELECT id FROM documents WHERE user_id = ? AND doc_hash = ?', (request.user_id, doc_hash))
         if cursor.fetchone():
             conn.close()
+            print(f"Upload Error: Document '{filename}' already exists for user {request.user_id} (duplicate hash: {doc_hash})")
             return jsonify({'error': 'Document already exists'}), 400
         
         # Insert document
@@ -569,4 +578,4 @@ if __name__ == '__main__':
     print("- Groq AI-powered responses")
     print("- Document-based question answering")
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, use_reloader=False, host='0.0.0.0', port=5000)
